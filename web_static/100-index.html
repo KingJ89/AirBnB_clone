@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Header, Footer, Filters, and Results</title>
+    <link rel="stylesheet" href="styles/4-common.css">
+    <link rel="stylesheet" href="styles/3-header.css">
+    <link rel="stylesheet" href="styles/3-footer.css">
+    <link rel="stylesheet" href="styles/6-filters.css">
+    <link rel="stylesheet" href="styles/100-places.css">
+    <link rel="icon" type="image/png" href="images/favicon.png">
+</head>
+<body>
+    <header>
+        <img src="images/icon.png" alt="Logo" class="logo">
+    </header>
+    
+    <div class="container">
+        <section class="filters">
+            <div class="locations">
+                <h3>States</h3>
+                <h4>Select a state</h4>
+                <ul class="popover">
+                    <li>
+                        <h2>New York</h2>
+                        <ul>
+                            <li>New York City</li>
+                            <li>Albany</li>
+                            <li>Buffalo</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <h2>California</h2>
+                        <ul>
+                            <li>Los Angeles</li>
+                            <li>San Francisco</li>
+                            <li>San Diego</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="amenities">
+                <h3>Amenities</h3>
+                <h4>Select amenities</h4>
+                <ul class="popover">
+                    <li>Gym</li>
+                    <li>Swimming Pool</li>
+                    <li>Free Breakfast</li>
+                </ul>
+            </div>
+            <button>Search</button>
+        </section>
+        
+        <section class="places">
+            <article>
+                <h2>New York City</h2>
+                <div class="price_by_night">$150</div>
+                <div class="information">
+                    <div class="max_guest">
+                        <i class="fa fa-users" aria-hidden="true"></i>
+                        <br>
+                        2 Guests
+                    </div>
+                    <div class="number_rooms">
+                        <i class="fa fa-bed" aria-hidden="true"></i>
+                        <br>
+                        1 Bedroom
+                    </div>
+                    <div class="number_bathrooms">
+                        <i class="fa fa-bath" aria-hidden="true"></i>
+                        <br>
+                        1 Bathroom
+                    </div>
+                </div>
+                <div class="user">
+                    <strong>Owner:</strong> John Doe
+                </div>
+                <div class="description">
+                    Beautiful apartment located in the heart of New York City.
+                </div>
+                <div class="amenities">
+                    <h2>Amenities</h2>
+                    <ul>
+                        <li><i class="fa fa-paw" aria-hidden="true"></i> Pet Friendly</li>
+                        <li><i class="fa fa-television" aria-hidden="true"></i> TV</li>
+                        <li><i class="fa fa-wifi" aria-hidden="true"></i> Wifi</li>
+                    </ul>
+                </div>
+                <div class="reviews">
+                    <h2>Reviews</h2>
+                    <ul>
+                        <li>
+                            <h3>From John Doe on 27th January 2023</h3>
+                            <p>Great location and wonderful host!</p>
+                        </li>
+                        <li>
+                            <h3>From Jane Smith on 15th February 2023</h3>
+                            <p>Very clean and cozy place.</p>
+                        </li>
+                    </ul>
+                </div>
+            </article>
+        </section>
+    </div>
+    
+    <footer>
+        <span>Best School</span>
+    </footer>
+</body>
+</html>
