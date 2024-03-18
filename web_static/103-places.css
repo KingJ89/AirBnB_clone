@@ -1,0 +1,54 @@
+.places {
+    padding: 0 20px;
+}
+
+.places h1 {
+    font-size: 24px;
+    margin-top: 0;
+}
+
+.article_places_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.article_places_header h2 {
+    font-size: 20px;
+    margin: 0;
+}
+
+.price_by_night {
+    font-size: 18px;
+}
+
+.information {
+    margin-bottom: 10px;
+}
+
+.user {
+    margin-bottom: 10px;
+}
+
+.description {
+    margin-bottom: 10px;
+}
+
+.amenities h2 {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.amenities ul {
+    padding-left: 20px;
+}
+
+.reviews h2 {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.reviews ul {
+    padding-left: 20px;
+}

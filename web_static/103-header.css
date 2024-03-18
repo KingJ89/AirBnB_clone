@@ -1,0 +1,39 @@
+/* Header styles */
+header {
+    background-color: #ffffff;
+    border-bottom: 1px solid #CCCCCC;
+}
+
+.mobile_nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+.main_nav_burguer {
+    cursor: pointer;
+    font-size: 18px;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.nav_bar_level1 label {
+    cursor: pointer;
+}
+
+.nav_bar_level1 input[type="checkbox"] {
+    display: none;
+}
+
+.nav_bar_level1 input[type="checkbox"]:checked + ul {
+    display: block;
+}
+
+.nav_bar_level1 ul {
+    display: none;
+}
