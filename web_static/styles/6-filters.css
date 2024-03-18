@@ -2,64 +2,92 @@
     background-color: white;
     height: 70px;
     width: 100%;
-    border: 1px solid #DDDDDD;
+    border: solid 1px #DDDDDD;
     border-radius: 4px;
-    display: flex;
-    align-items: center;
+    text-align: right;
 }
 
-.locations, .amenities {
-    position: relative;
-    height: 100%;
-    width: 25%;
-    padding: 20px;
-    box-sizing: border-box;
-    border-right: 1px solid #DDDDDD;
-}
-
-.locations h3, .amenities h3 {
-    font-weight: 600;
-    cursor: pointer;
-}
-
-.locations ul, .amenities ul {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    padding: 10px;
-    background-color: #FAFAFA;
-    border: 1px solid #DDDDDD;
-    border-radius: 4px;
-    list-style: none;
-    z-index: 1;
-}
-
-.locations ul li, .amenities ul li {
-    cursor: pointer;
-}
-
-button {
+section.filters button {
+    margin-top: 11px;
+    margin-bottom: 11px;
+    margin-right: 30px;
     font-size: 18px;
     background-color: #FF5A5F;
-    color: #FFFFFF;
+    color: white;
     height: 48px;
     width: 20%;
     border: none;
     border-radius: 4px;
-    margin-right: 30px;
-    transition: opacity 0.3s;
 }
 
-button:hover {
+section.filters button:hover {
     opacity: 0.9;
 }
 
-.popover {
-    display: none;
+.locations, .amenities {
+    text-align: left;
+    height: 100%;
+    width: 25%;
+    float: left;
 }
 
-.locations:hover ul, .amenities:hover ul {
-    display: block;
+.locations {
+    border-right: solid 1px #DDDDDD;
 }
+
+.locations h3, .amenities h3 {
+    font-weight: 600;
+    margin: 0;
+    padding: 0;
+    margin-top: 17px;
+    padding-left: 30px;
+}
+
+.locations h4, .amenities h4 {
+    margin: 0;
+    padding: 0;
+    font-weight: 400;
+    font-size: 14px;
+    padding-left: 30px;
+}
+
+.popover {
+    visibility: hidden;
+    position: relative;
+    background-color: #FAFAFA;
+    border: solid #DDDDDD 1px;
+    border-radius: 4px;
+    margin-top: 7%;
+    padding-bottom: 10%;
+    z-index: 1;
+}
+
+.popover li h2 {
+    padding: 0;
+    margin: 0;
+}
+
+.popover_list {
+    padding: 0;
+    margin: 0;
+    padding-left: 10%;
+}
+
+li {
+    list-style-type: none;
+    padding-bottom: 5%;
+}
+
+ul {
+    padding-top: 30px;
+}
+
+.locations:hover > .popover, .amenities:hover > .popover {
+    visibility: visible;
+    margin-bottom: 50px;
+}
+
+ul {
+    list-style: none;
+}
+
