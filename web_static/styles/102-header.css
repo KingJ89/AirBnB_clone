@@ -1,0 +1,49 @@
+header {
+    background-color: white;
+    height: 70px;
+    width: 100%;
+    border-bottom: 1px solid #CCCCCC;
+    display: flex;
+    align-items: center;
+}
+
+.mobile_nav {
+    margin-left: 20px;
+}
+
+.main_nav_burguer {
+    cursor: pointer;
+}
+
+.main_nav_check {
+    display: none;
+}
+
+nav {
+    display: none;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+nav ul li {
+    display: inline-block;
+    margin-left: 20px;
+}
+
+nav ul li ul {
+    display: none;
+}
+
+nav ul li:hover ul {
+    display: block;
+}
+
+nav ul li ul li {
+    display: block;
+    margin-top: 10px;
+}
+
