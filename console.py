@@ -1,133 +1,189 @@
+#!/usr/bin/python3
+
 import cmd
+from models.base_model import BaseModel
+from models.user import User
+from models.place import Place
+from models.state import State
+from models.city import city
+from models.amenity import Amenity
+from models.review import Review
+from models import storage
+import re
 import json
 
-class User:
-    def __init__(self, id, name, email):
-        self.id = id
-        self.name = name
-        self.email = email
+class HBNBCommand(cmd.Cmd):
+    """Class for the console AirBnB"""
+    prompt = "(hbnb) "
+    all_classes = [cls for cls in classes.keys()]
 
-    def to_dict(self):
-        return {"id": self.id, "name": self.name, "email": self.email}
+    def do_EOF(self, arg):
+        """Ctrl-D to exit the program\n"""
+        return True
 
-    @classmethod
-    def from_dict(cls, data):
-        return cls(data["id"], data["name"], data["email"])
+    def do_quit(self, arg):
+        """Quit command to exit the program\n"""
+        return True
 
-    class StorageEngine:
-        def __init__(self):
-            self.data = {}
+    def emptyline(self):
+        """an empty line + ENTER shouldn't execute anything\n"""
+        pass
 
-        def create(self, obj):
-            self.data[obj.id] = obj
+    def do_create(self, arg):
+        """Creates a new instance :
+Usage: create <class name>\n"""
+        if not arg:
+            print("** class name missing **")
+            return
+        if arg not in self.all_classes:
+            print("** class doesn't exist **")
+            return
+        new_instance = classes[arg]()
+        new_instance.save()
+        print(new_instance.id)
 
-        def read(self, obj_id):
-            return self.data.get(obj_id)
+    def do_clear(self, arg):
+        """Clear data storage :
+Usage: clear\n"""
+        storage.all().clear()
+        storage.save()
+        print("** All data has been cleared! **")
 
-        def update(self, obj):
-            if obj.id in self.data:
-                self.data[obj.id] = obj
+    def valid(self, arg, _id_flag=False, _att_flag=False):
+        """validation of argument that pass to commands"""
+        args = arg.split()
+        _len = len(args)
+        if _len == 0:
+            print("** class name missing **")
+            return False
+        if args[0] not in self.all_classes:
+            print("** class doesn't exist **")
+            return False
+        if _len < 2 and _id_flag:
+            print("** instance id missing **")
+            return False
+        if _id_flag and args[0] + "." + args[1] not in storage.all():
+            print("** no instance found **")
+            return False
+        if _len == 2 and _att_flag:
+            print("** attribute name missing **")
+            return False
+        if _len == 3 and _att_flag:
+            print("** value missing **")
+            return False
+        return True
 
-        def delete(self, obj_id):
-            if obj_id in self.data:
-                del self.data[obj_id]
+    def do_show(self, arg):
+        """Prints the string representation of an instance
+Usage: show <class name> <id>\n"""
+        if self.valid(arg, True):
+            args = arg.split()
+            _key = args[0] + "." + args[1]
+            print(storage.all()[_key])
 
-class JSONFilePersistence:
-    def __init__(self, filename):
-        self.filename = filename
+    def do_destroy(self, arg):
+        """Deletes an instance
+Usage: destroy <class name> <id>\n"""
+        if self.valid(arg, True):
+            args = arg.split()
+            _key = args[0] + "." + args[1]
+            del storage.all()[_key]
+            storage.save()
 
-    def save(self, data):
-        with open(self.filename, 'w') as f:
-            json.dump(data, f, default=lambda obj: obj.to_dict(), indent=4)
+    def do_all(self, arg):
+        """Prints all string representation of all
+instances based or not on the class name
+Usage1: all
+Usage2: all <class name>\n"""
+        args = arg.split()
+        _len = len(args)
+        my_list = []
+        if _len >= 1:
+            if args[0] not in self.all_classes:
+                print("** class doesn't exist **")
+                return
+            for key, value in storage.all().items():
+                if args[0] in key:
+                    my_list.append(str(value))
+        else:
+            for key, value in storage.all().items():
+                my_list.append(str(value))
+        print(my_list)
 
-    def load(self):
+    def casting(self, arg):
+        """cast string to float or int if possible"""
         try:
-            with open(self.filename, 'r') as f:
-                data = json.load(f)
-                return {int(k): User.from_dict(v) for k, v in data.items()}
-            except FileNotFoundError:
-                return {}
-
-class Console(cmd.Cmd):
-    intro = "Welcome to the ALX hbnb console project. Type ? to list commands."
-    prompt = "HbnbJan$ "
-
-    def __init__(self, storage, persistance):
-        super().__init__()
-        self.storage = storage
-        self.persistance = persistance
-
-    def do_create_user(self, args):
-        """
-        Create a new user. Usage: create_user <id> <name> <email>
-        """
-        try:
-            id, name, email = args.split()
-            user = User(int(id), name, email)
-            self.storage.create(user)
-            self.persistance.save(self.storage.data)
-            print("User created successfully.Hello from Jan")
-        except ValueError:
-            print("Invalid arguments. Usage: create_user <id> <name> <email>")
-
-        def do_read_user(self, args):
-            """
-            Read user details by ID. Usage: read_user <id>
-            """
-            try:
-                id = int(args)
-                user = self.storage.read(id)
-                if user:
-                    print(f"ID: {user.id}' Name: {user.name}, Email: {user.email}")
-                else:
-                    print("User not found.")
-            except ValueError:
-                print("Invalid arguments. Usage: read_user <id>")
-
-    def do_update_user(self, args):
-        """
-        update existing user. Usage: update_user <id> <name> <email>
-        """
-        try:
-            id, name, email = args.split()
-            user = self.storage.read(int(id))
-            if user:
-                user.name = name
-                user.email = email
-                self.storage.update(user)
-                self.persistance.save(self.storage.data)
-                print("User updated successfully.")
+            if "." in arg:
+                arg = float(arg)
             else:
-                print("User not found.")
-            except ValueError:
-                print("Invalid arguments. Usage: update_user <id> <name> <email>")
+                arg = int(arg)
+        except ValueError:
+            pass
+        return arg
 
-        def do_delete_user(self, args):
-            """
-            Delete a user by ID. Usage: delete_user <id>
-            """
-            try:
-                id = int(args)
-                user = self.storage.read(id)
-                if user:
-                    self.storage.delete(id)
-                    self.persistance.save(self.storage.data)
-                    print("User deleted successfully.")
-                else:
-                    print("User not Found.")
-            except ValueError:
-                print("Invalid arguments. Usage: delete_user <id>")
+    def do_update(self, arg):
+        """Updates an instance by adding or updating attribute
+Usage: update <class name> <id> <attribute name> \"<attribute value>\"\n"""
+        if self.valid(arg, True, True):
+            args = arg.split()
+            _key = args[0] + "." + args[1]
+            if args[3].startswith('"'):
+                match = re.search(r'"([^"]+)"', arg).group(1)
+            elif args[3].startswith("'"):
+                match = re.search(r'\'([^\']+)\'', arg).group(1)
+            else:
+                match = args[3]
+            if args[2] in BaseModel.attr_str:
+                setattr(storage.all()[_key], args[2], str(match))
+            elif args[2] in BaseModel.attr_int:
+                setattr(storage.all()[_key], args[2], int(match))
+            elif args[2] in BaseModel.attr_float:
+                setattr(storage.all()[_key], args[2], float(match))
+            else:
+                setattr(storage.all()[_key], args[2], self.casting(match))
+            storage.save()
 
-        def do_quit(self, args):
-            """
-            quit console
-            """
-            return True
+    def count(self, arg):
+        """the number of instances of a class
+Usage: <class name>.count()\n"""
+        count = 0
+        for key in storage.all():
+            if arg[:-1] in key:
+                count += 1
+        print(count)
 
-        if __name__ == "__main__":
-            storage = StorageEngine()
-            persistence = JSONFilePersistence("data.json")
-            storage.data = persistence.load()
-            console = Console(storage, persistence)
-            console.prompt = "HbnbJan$ "
-            console.cmdloop()
+    def _exec(self, arg):
+        """helper function parsing filtering replacing"""
+        methods = {
+            "all": self.do_all,
+            "count": self.count,
+            "show": self.do_show,
+            "destroy": self.do_destroy,
+            "update": self.do_update,
+            "create": self.do_create
+        }
+        match = re.findall(r"^(\w+)\.(\w+)\((.*)\)", arg)
+        args = match[0][0] + " " + match[0][2]
+        _list = args.split(", ")
+        _list[0] = _list[0].replace('"', "").replace("'", "")
+        if len(_list) > 1:
+            _list[1] = _list[1].replace('"', "").replace("'", "")
+        args = " ".join(_list)
+        if match[0][1] in methods:
+            methods[match[0][1]](args)
+
+    def default(self, arg):
+        """default if there no command found"""
+        match = re.findall(r"^(\w+)\.(\w+)\((.*)\)", arg)
+        if len(match) != 0 and match[0][1] == "update" and "{" in arg:
+            _dict = re.search(r'{([^}]+)}', arg).group()
+            _dict = json.loads(_dict.replace("'", '"'))
+            for k, v in _dict.items():
+                _arg = arg.split("{")[0] + k + ", " + str(v) + ")"
+                self._exec(_arg)
+        elif len(match) != 0:
+            self._exec(arg)
+
+
+if __name__ == "__main__":
+    HBNBCommand().cmdloop()
