@@ -1,15 +1,17 @@
 #!/usr/bin/python3
 """
-Module for the City class.
+Module for the User class.
 """
 
 from models.base_model import BaseModel
 
 
-class City(BaseModel):
+class User(BaseModel):
 
     def __init__(self, *args, **kwargs):
         
         super().__init__(*args, **kwargs)
-        self.state_id = ""
-        self.name = ""
+        self.email = ""
+        self.password = ""
+        self.first_name = ""
+        self.last_name = ""
