@@ -9,10 +9,10 @@ header {
 }
 
 header .logo {
-    background-image: url('../images/logo.png'); /* Adjust path if necessary */
+    background-image: url('../images/logo.png');
     background-size: contain;
     background-repeat: no-repeat;
     height: 100%;
-    width: 50px; /* Adjust width as necessary */
+    width: 50px;
     margin-left: 20px;
 }
