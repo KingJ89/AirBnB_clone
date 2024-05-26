@@ -1,0 +1,18 @@
+header {
+    background-color: #333; /* Assuming the color is needed, adjust as necessary */
+    color: white;
+    height: 70px;
+    width: 100%;
+    border-bottom: 1px solid #CCCCCC;
+    display: flex;
+    align-items: center;
+}
+
+header .logo {
+    background-image: url('../images/logo.png'); /* Adjust path if necessary */
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 100%;
+    width: 50px; /* Adjust width as necessary */
+    margin-left: 20px;
+}
